@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Políticas de Privacidad</title>
+</head>
+<body>
+    <h1>Políticas de Privacidad</h1>
+    <ul>
+        <?php
+        function findIndexFiles($dir) {
+            $files = [];
+            foreach (scandir($dir) as $file) {
+                if ($file === '.' || $file === '..') continue;
+                $fullPath = $dir . '/' . $file;
+                if (is_dir($fullPath)) {
+                    $indexFile = $fullPath . '/index.html';
+                    if (file_exists($indexFile)) {
+                        $files[] = $indexFile;
+                    }
+                }
+            }
+            return $files;
+        }
+
+        $indexFiles = findIndexFiles('.');
+        foreach ($indexFiles as $file) {
+            $relativePath = str_replace('./', '', $file);
+            $dirName = basename(dirname($file));
+            echo "<li><a href=\"$relativePath\">Política de Privacidad - $dirName</a></li>";
+        }
+        ?>
+    </ul>
+</body>
+</html>
